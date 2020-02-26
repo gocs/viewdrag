@@ -40,6 +40,7 @@ func main() {
 		rand.Intn(screenHeight-h),
 		screenWidth,
 		screenHeight,
+		ebiten.MouseButtonMiddle,
 	)
 
 	g := &game{v}

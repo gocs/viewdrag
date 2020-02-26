@@ -2,7 +2,6 @@ package viewdrag
 
 import (
 	"github.com/hajimehoshi/ebiten"
-	"github.com/hajimehoshi/ebiten/inpututil"
 )
 
 // Sprite represents an image.
@@ -45,17 +44,4 @@ func (s *Sprite) Draw(screen *ebiten.Image, dx, dy int, alpha float64) {
 	op.GeoM.Translate(float64(s.x+dx), float64(s.y+dy))
 	op.ColorM.Scale(1, 1, 1, alpha)
 	screen.DrawImage(s.image, op)
-}
-
-// MouseStrokeSource is a StrokeSource implementation of mouse.
-type MouseStrokeSource struct{}
-
-// Position gives the current position by a mouse
-func (m *MouseStrokeSource) Position() (int, int) {
-	return ebiten.CursorPosition()
-}
-
-// IsJustReleased asks if the mouse button is up
-func (m *MouseStrokeSource) IsJustReleased() bool {
-	return inpututil.IsMouseButtonJustReleased(ebiten.MouseButtonLeft)
 }

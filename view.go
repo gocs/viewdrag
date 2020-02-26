@@ -7,25 +7,26 @@ import (
 
 // View controls the state of the game
 type View struct {
-	spr *Sprite
-	stk *Stroke
+	spr     *Sprite
+	stk     *Stroke
+	trigger ebiten.MouseButton
 }
 
 // NewView gives custom default values
-func NewView(ebitenImage *ebiten.Image, x, y, screenWidth, screenHeight int) *View {
+func NewView(ebitenImage *ebiten.Image, x, y, screenWidth, screenHeight int, trigger ebiten.MouseButton) *View {
 	return &View{spr: &Sprite{
 		image:        ebitenImage,
 		x:            x,
 		y:            y,
 		screenWidth:  screenWidth,
 		screenHeight: screenHeight,
-	}}
+	}, trigger: trigger}
 }
 
 // Compute implements ebiten Update func before draw skipping for main loop
 func (v *View) Compute(scr *ebiten.Image) error {
-	if inpututil.IsMouseButtonJustPressed(ebiten.MouseButtonLeft) {
-		stk := NewStroke(&MouseStrokeSource{})
+	if inpututil.IsMouseButtonJustPressed(v.trigger) {
+		stk := NewStroke(&MouseStrokeSource{btn: v.trigger})
 		stk.SetDraggingObject(v.spr)
 		v.stk = stk
 	}
