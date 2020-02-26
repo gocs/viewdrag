@@ -1,7 +1,7 @@
 # viewdrag
 
 viewdrag will drag the image in the viewport.
-this is the copy of ebiten drag and drop example
+this is a copy of ebiten drag and drop example
 
 
 ## run
