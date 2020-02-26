@@ -2,6 +2,8 @@ package main
 
 import (
 	"bytes"
+	"errors"
+	"fmt"
 	"image"
 	_ "image/png"
 	"log"
@@ -32,7 +34,7 @@ func main() {
 
 	w, h := ebitenImage.Size()
 
-	g := viewdrag.NewView(
+	v := viewdrag.NewView(
 		ebitenImage,
 		rand.Intn(screenWidth-w),
 		rand.Intn(screenHeight-h),
@@ -40,7 +42,28 @@ func main() {
 		screenHeight,
 	)
 
-	if err := ebiten.Run(g.Update, screenWidth, screenHeight, 1, "Camera Drag"); err != nil {
+	g := &game{v}
+
+	if err := ebiten.Run(g.update, screenWidth, screenHeight, 1, "Camera Drag"); err != nil {
 		log.Fatal("error while running:", err)
 	}
+}
+
+type game struct {
+	v *viewdrag.View
+}
+
+func (g *game) update(scr *ebiten.Image) error {
+	if err := g.v.Compute(scr); err != nil {
+		return errors.New(fmt.Sprint("error while computing:", err))
+	}
+
+	if ebiten.IsDrawingSkipped() {
+		return nil
+	}
+
+	if err := g.v.Render(scr); err != nil {
+		return errors.New(fmt.Sprint("error while rendering:", err))
+	}
+	return nil
 }

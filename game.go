@@ -22,8 +22,8 @@ func NewView(ebitenImage *ebiten.Image, x, y, screenWidth, screenHeight int) *Vi
 	}}
 }
 
-// Update implements ebiten Update func for main
-func (v *View) Update(scr *ebiten.Image) error {
+// Compute implements ebiten Update func before draw skipping for main loop
+func (v *View) Compute(scr *ebiten.Image) error {
 	if inpututil.IsMouseButtonJustPressed(ebiten.MouseButtonLeft) {
 		stk := NewStroke(&MouseStrokeSource{})
 		stk.SetDraggingObject(v.spr)
@@ -36,11 +36,11 @@ func (v *View) Update(scr *ebiten.Image) error {
 			v.stk = nil
 		}
 	}
+	return nil
+}
 
-	if ebiten.IsDrawingSkipped() {
-		return nil
-	}
-
+// Render implements ebiten Update func after draw skipping for main loop
+func (v *View) Render(scr *ebiten.Image) error {
 	if v.stk != nil {
 		if spr := v.stk.DraggingObject().(*Sprite); spr != nil {
 			dx, dy := v.stk.PositionDiff()
