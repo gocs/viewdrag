@@ -44,7 +44,7 @@ func main() {
 
 	g := &game{v}
 
-	if err := ebiten.Run(g.update, screenWidth, screenHeight, 1, "Camera Drag"); err != nil {
+	if err := ebiten.Run(g.update, screenWidth, screenHeight, 1, "View Drag"); err != nil {
 		log.Fatal("error while running:", err)
 	}
 }
