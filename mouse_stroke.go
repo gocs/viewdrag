@@ -6,7 +6,7 @@ import (
 )
 
 // MouseStrokeSource is a StrokeSource implementation of mouse.
-type MouseStrokeSource struct{
+type MouseStrokeSource struct {
 	btn ebiten.MouseButton
 }
 

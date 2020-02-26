@@ -1,8 +1,6 @@
 package viewdrag
 
-import (
-	"github.com/hajimehoshi/ebiten"
-)
+import "github.com/hajimehoshi/ebiten"
 
 // Sprite represents an image.
 type Sprite struct {
