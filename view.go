@@ -6,7 +6,7 @@ import (
 )
 
 // Spriter will match mesh and sprite structs.
-// only difference is that mesh will contain triangle verteces nad indeces
+// only difference is that mesh will contain triangle vertices nad indeces
 type Spriter interface {
 	MoveBy(x, y int)
 	GetPosition() (int, int)

@@ -8,7 +8,7 @@ type Mesh struct {
 	image *ebiten.Image
 
 	// the mesh themselves
-	verteces []ebiten.Vertex
+	vertices []ebiten.Vertex
 	indices  []uint16
 
 	// actually the bounds of the mesh
@@ -35,7 +35,7 @@ func NewMesh(ebitenImage *ebiten.Image, vertices []ebiten.Vertex, indeces []uint
 
 	return &Mesh{
 		image:     ebitenImage,
-		verteces:  vertices,
+		vertices:  vertices,
 		indices:   indeces,
 		x:         x,
 		y:         y,
@@ -77,7 +77,7 @@ func (m *Mesh) Draw(screen *ebiten.Image, dx, dy int, alpha float64) {
 
 	// op.GeoM.Translate(float64(m.x+dx), float64(m.y+dy))
 	vx := []ebiten.Vertex{}
-	for _, v := range m.verteces {
+	for _, v := range m.vertices {
 		vx = append(vx, ebiten.Vertex{
 			DstX:   v.DstX + float32(m.x+dx),
 			DstY:   v.DstY + float32(m.y+dy),
