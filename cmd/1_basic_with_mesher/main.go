@@ -27,9 +27,15 @@ func main() {
 	emptyImage.Fill(color.White)
 
 	w, h := emptyImage.Size()
+	vx := []ebiten.Vertex{
+		{DstX: 0, DstY: 0, SrcX: 0, SrcY: 0, ColorR: 1, ColorG: 1, ColorB: 1, ColorA: 1},
+		{DstX: 0, DstY: 100, SrcX: 0, SrcY: 0, ColorR: 1, ColorG: 1, ColorB: 1, ColorA: 1},
+		{DstX: 100, DstY: 100, SrcX: 0, SrcY: 0, ColorR: 1, ColorG: 1, ColorB: 1, ColorA: 1},
+	}
 
 	v := viewdrag.NewViewWithMesh(
 		emptyImage,
+		vx, []uint16{0, 1, 2},
 		rand.Intn(screenWidth-w),
 		rand.Intn(screenHeight-h),
 		screenWidth,
@@ -48,17 +54,7 @@ type game struct {
 	v *viewdrag.View
 }
 
-var vx = []ebiten.Vertex{
-	{DstX: 100, DstY: 100, SrcX: 0, SrcY: 0, ColorR: 1, ColorG: 1, ColorB: 1, ColorA: 1},
-	{DstX: 100, DstY: 500, SrcX: 0, SrcY: 0, ColorR: 1, ColorG: 1, ColorB: 1, ColorA: 1},
-	{DstX: 500, DstY: 500, SrcX: 0, SrcY: 0, ColorR: 1, ColorG: 1, ColorB: 1, ColorA: 1},
-}
-
 func (g *game) update(scr *ebiten.Image) error {
-	if err := g.v.SetMesh(vx, []uint16{0, 1, 2, 1, 2, 3}); err != nil {
-		return errors.New(fmt.Sprint("error while SetMesh:", err))
-	}
-
 	if err := g.v.Compute(scr); err != nil {
 		return errors.New(fmt.Sprint("error while computing:", err))
 	}

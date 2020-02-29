@@ -4,36 +4,69 @@ import "github.com/hajimehoshi/ebiten"
 
 // Mesh represents set of triangles.
 type Mesh struct {
-	image    *ebiten.Image
+	// image basis for the mesh
+	image *ebiten.Image
+
+	// the mesh themselves
 	verteces []ebiten.Vertex
 	indices  []uint16
 
-	x, y                      int
-	screenWidth, screenHeight int
+	// actually the bounds of the mesh
+	// base vector of the whole mesh
+	x, y int
+	// farthest vector in all of the meshes
+	width, height int
+
+	// dimensions of the viewport
+	scrWidth, scrHeight int
+}
+
+// NewMesh generates new mesh with farthest vector
+func NewMesh(ebitenImage *ebiten.Image, vertices []ebiten.Vertex, indeces []uint16, x, y, screenWidth, screenHeight int) *Mesh {
+	var w, h float32
+	for _, v := range vertices {
+		if w < v.DstX {
+			w = v.DstX
+		}
+		if h < v.DstY {
+			h = v.DstY
+		}
+	}
+
+	return &Mesh{
+		image:     ebitenImage,
+		verteces:  vertices,
+		indices:   indeces,
+		x:         x,
+		y:         y,
+		width:     int(w),
+		height:    int(h),
+		scrWidth:  screenWidth,
+		scrHeight: screenHeight,
+	}
 }
 
 // MoveBy asks for increments of the movements
 func (m *Mesh) MoveBy(x, y int) {
-	w, h := m.image.Size()
-
 	m.x += x
 	m.y += y
 
+	// if exceeds bounds return back
 	if m.x < 0 {
 		m.x = 0
 	}
-	if m.x > m.screenWidth-w {
-		m.x = m.screenWidth - w
+	if m.x > m.scrWidth-m.width {
+		m.x = m.scrWidth - m.width
 	}
 	if m.y < 0 {
 		m.y = 0
 	}
-	if m.y > m.screenHeight-h {
-		m.y = m.screenHeight - h
+	if m.y > m.scrHeight-m.height {
+		m.y = m.scrHeight - m.height
 	}
 }
 
-// GetPosition gives the current position of the mesh
+// GetPosition gives the displacement position of the of the whole mesh
 func (m *Mesh) GetPosition() (int, int) {
 	return m.x, m.y
 }
@@ -43,11 +76,20 @@ func (m *Mesh) Draw(screen *ebiten.Image, dx, dy int, alpha float64) {
 	op := &ebiten.DrawTrianglesOptions{}
 
 	// op.GeoM.Translate(float64(m.x+dx), float64(m.y+dy))
-	for i := range m.verteces {
-		m.verteces[i].DstX = float32(m.x + dx)
-		m.verteces[i].DstY = float32(m.y + dy)
+	vx := []ebiten.Vertex{}
+	for _, v := range m.verteces {
+		vx = append(vx, ebiten.Vertex{
+			DstX:   v.DstX + float32(m.x+dx),
+			DstY:   v.DstY + float32(m.y+dy),
+			ColorA: v.ColorA,
+			ColorB: v.ColorB,
+			ColorG: v.ColorG,
+			ColorR: v.ColorR,
+			SrcX:   v.SrcX,
+			SrcY:   v.SrcY,
+		})
 	}
-	
+
 	op.ColorM.Scale(1, 1, 1, alpha)
-	screen.DrawTriangles(m.verteces, m.indices, m.image, op)
+	screen.DrawTriangles(vx, m.indices, m.image, op)
 }

@@ -1,8 +1,6 @@
 package viewdrag
 
 import (
-	"errors"
-
 	"github.com/hajimehoshi/ebiten"
 	"github.com/hajimehoshi/ebiten/inpututil"
 )
@@ -34,16 +32,8 @@ func NewView(ebitenImage *ebiten.Image, x, y, screenWidth, screenHeight int, tri
 }
 
 // NewViewWithMesh gives custom default values
-func NewViewWithMesh(ebitenImage *ebiten.Image, x, y, screenWidth, screenHeight int, trigger ebiten.MouseButton) *View {
-	return &View{spriter: &Mesh{
-		image:        ebitenImage,
-		verteces:     []ebiten.Vertex{},
-		indices:      []uint16{},
-		x:            x,
-		y:            y,
-		screenWidth:  screenWidth,
-		screenHeight: screenHeight,
-	}, trigger: trigger}
+func NewViewWithMesh(ebitenImage *ebiten.Image, vertices []ebiten.Vertex, indeces []uint16, x, y, screenWidth, screenHeight int, trigger ebiten.MouseButton) *View {
+	return &View{spriter: NewMesh(ebitenImage, vertices, indeces, x, y, screenWidth, screenHeight), trigger: trigger}
 }
 
 // Compute implements ebiten Update func before draw skipping for main loop
@@ -94,21 +84,4 @@ func (v *View) updateStroke(stroke *Stroke) {
 	v.spriter = s
 
 	stroke.SetDraggingObject(nil)
-}
-
-// SetMesh sets the sprite as a mesh from triangles.
-//	This must be called before compute is called.
-func (v *View) SetMesh(verteces []ebiten.Vertex, indices []uint16) error {
-	mesh, ok := v.spriter.(*Mesh)
-	if !ok {
-		return errors.New("error: spriters might not be a mesh; it might be a sprite")
-	}
-	if mesh == nil {
-		return errors.New("error: spriters is empty")
-	}
-
-	mesh.verteces = verteces
-	mesh.indices = indices
-	v.spriter = mesh
-	return nil
 }
