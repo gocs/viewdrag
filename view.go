@@ -1,6 +1,8 @@
 package viewdrag
 
 import (
+	"errors"
+
 	"github.com/hajimehoshi/ebiten"
 	"github.com/hajimehoshi/ebiten/inpututil"
 )
@@ -84,4 +86,21 @@ func (v *View) updateStroke(stroke *Stroke) {
 	v.spriter = s
 
 	stroke.SetDraggingSpriter(nil)
+}
+
+// SetMesh sets the sprite as a mesh from triangles.
+//	This must be called before compute is called.
+func (v *View) SetMesh(vertices []ebiten.Vertex, indices []uint16) error {
+	if v.spriter == nil {
+		return errors.New("error: spriters is empty")
+	}
+	mesh, ok := v.spriter.(*Mesh)
+	if !ok {
+		return errors.New("error: spriters might not be a mesh; it might be a sprite")
+	}
+
+	mesh.vertices = vertices
+	mesh.indices = indices
+	v.spriter = mesh
+	return nil
 }
