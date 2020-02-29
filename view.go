@@ -40,7 +40,7 @@ func NewViewWithMesh(ebitenImage *ebiten.Image, vertices []ebiten.Vertex, indece
 func (v *View) Compute(scr *ebiten.Image) error {
 	if inpututil.IsMouseButtonJustPressed(v.trigger) {
 		stk := NewStroke(&MouseStrokeSource{btn: v.trigger})
-		stk.SetDraggingObject(v.spriter)
+		stk.SetDraggingSpriter(v.spriter)
 		v.stk = stk
 	}
 
@@ -56,7 +56,7 @@ func (v *View) Compute(scr *ebiten.Image) error {
 // Render implements ebiten Update func after draw skipping for main loop
 func (v *View) Render(scr *ebiten.Image) error {
 	if v.stk != nil {
-		if spr := v.stk.DraggingObject().(Spriter); spr != nil {
+		if spr := v.stk.DraggingSprite(); spr != nil {
 			dx, dy := v.stk.PositionDiff()
 			spr.Draw(scr, dx, dy, 0.5)
 			v.spriter = spr
@@ -73,7 +73,7 @@ func (v *View) updateStroke(stroke *Stroke) {
 		return
 	}
 
-	s := stroke.DraggingObject().(Spriter)
+	s := stroke.DraggingSprite()
 	if s == nil {
 		return
 	}
@@ -83,5 +83,5 @@ func (v *View) updateStroke(stroke *Stroke) {
 
 	v.spriter = s
 
-	stroke.SetDraggingObject(nil)
+	stroke.SetDraggingSpriter(nil)
 }

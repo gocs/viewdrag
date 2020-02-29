@@ -20,9 +20,9 @@ type Stroke struct {
 
 	released bool
 
-	// draggingObject represents a object (sprite in this case)
+	// draggingObject represents a Spriter
 	// that is being dragged.
-	draggingObject interface{}
+	draggingSpriter Spriter
 }
 
 // NewStroke asks for devices' custom controls and provides custom default values
@@ -68,12 +68,12 @@ func (s *Stroke) PositionDiff() (int, int) {
 	return dx, dy
 }
 
-// DraggingObject gives the object being dragged
-func (s *Stroke) DraggingObject() interface{} {
-	return s.draggingObject
+// DraggingSprite gives the Spriter being dragged
+func (s *Stroke) DraggingSprite() Spriter {
+	return s.draggingSpriter
 }
 
-// SetDraggingObject sets the object to be dragged
-func (s *Stroke) SetDraggingObject(object interface{}) {
-	s.draggingObject = object
+// SetDraggingSpriter sets the Spriter to be dragged
+func (s *Stroke) SetDraggingSpriter(sprite Spriter) {
+	s.draggingSpriter = sprite
 }
