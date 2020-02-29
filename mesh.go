@@ -47,5 +47,7 @@ func (m *Mesh) Draw(screen *ebiten.Image, dx, dy int, alpha float64) {
 		m.verteces[i].DstX = float32(m.x + dx)
 		m.verteces[i].DstY = float32(m.y + dy)
 	}
+	
+	op.ColorM.Scale(1, 1, 1, alpha)
 	screen.DrawTriangles(m.verteces, m.indices, m.image, op)
 }
