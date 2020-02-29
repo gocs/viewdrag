@@ -44,10 +44,8 @@ func (m *Mesh) Draw(screen *ebiten.Image, dx, dy int, alpha float64) {
 
 	// op.GeoM.Translate(float64(m.x+dx), float64(m.y+dy))
 	for i := range m.verteces {
-		m.verteces[i].DstX += float32(dx)
-		m.verteces[i].DstY += float32(dy)
+		m.verteces[i].DstX = float32(m.x + dx)
+		m.verteces[i].DstY = float32(m.y + dy)
 	}
-
-	op.ColorM.Scale(1, 1, 1, alpha)
 	screen.DrawTriangles(m.verteces, m.indices, m.image, op)
 }

@@ -1,10 +1,9 @@
 package main
 
 import (
-	"bytes"
 	"errors"
 	"fmt"
-	"image"
+	"image/color"
 	_ "image/png"
 	"log"
 	"math/rand"
@@ -12,7 +11,6 @@ import (
 
 	"github.com/gocs/viewdrag"
 	"github.com/hajimehoshi/ebiten"
-	"github.com/hajimehoshi/ebiten/examples/resources/images"
 )
 
 func init() {
@@ -25,17 +23,13 @@ const (
 )
 
 func main() {
+	emptyImage, _ := ebiten.NewImage(16, 16, ebiten.FilterDefault)
+	emptyImage.Fill(color.White)
 
-	img, _, err := image.Decode(bytes.NewReader(images.Ebiten_png))
-	if err != nil {
-		log.Fatal(err)
-	}
-	ebitenImage, _ := ebiten.NewImageFromImage(img, ebiten.FilterDefault)
-
-	w, h := ebitenImage.Size()
+	w, h := emptyImage.Size()
 
 	v := viewdrag.NewViewWithMesh(
-		ebitenImage,
+		emptyImage,
 		rand.Intn(screenWidth-w),
 		rand.Intn(screenHeight-h),
 		screenWidth,
@@ -54,13 +48,14 @@ type game struct {
 	v *viewdrag.View
 }
 
+var vx = []ebiten.Vertex{
+	{DstX: 100, DstY: 100, SrcX: 0, SrcY: 0, ColorR: 1, ColorG: 1, ColorB: 1, ColorA: 1},
+	{DstX: 100, DstY: 500, SrcX: 0, SrcY: 0, ColorR: 1, ColorG: 1, ColorB: 1, ColorA: 1},
+	{DstX: 500, DstY: 500, SrcX: 0, SrcY: 0, ColorR: 1, ColorG: 1, ColorB: 1, ColorA: 1},
+}
+
 func (g *game) update(scr *ebiten.Image) error {
-	vx := []ebiten.Vertex{
-		ebiten.Vertex{DstX: 100, DstY: 100, SrcX: 0, SrcY: 0, ColorR: 1, ColorG: 1, ColorB: 1, ColorA: 1},
-		ebiten.Vertex{DstX: 100, DstY: 200, SrcX: 0, SrcY: 0, ColorR: 1, ColorG: 1, ColorB: 1, ColorA: 1},
-		ebiten.Vertex{DstX: 200, DstY: 200, SrcX: 0, SrcY: 0, ColorR: 1, ColorG: 1, ColorB: 1, ColorA: 1},
-	}
-	if err := g.v.SetMesh(vx, []uint16{0, 1, 2, 1, 0, 2}); err != nil {
+	if err := g.v.SetMesh(vx, []uint16{0, 1, 2, 1, 2, 3}); err != nil {
 		return errors.New(fmt.Sprint("error while SetMesh:", err))
 	}
 

@@ -2,10 +2,8 @@ package viewdrag
 
 import (
 	"errors"
-	"fmt"
 
 	"github.com/hajimehoshi/ebiten"
-	"github.com/hajimehoshi/ebiten/ebitenutil"
 	"github.com/hajimehoshi/ebiten/inpututil"
 )
 
@@ -72,12 +70,9 @@ func (v *View) Render(scr *ebiten.Image) error {
 			dx, dy := v.stk.PositionDiff()
 			spr.Draw(scr, dx, dy, 0.5)
 			v.spriter = spr
-			ebitenutil.DebugPrint(scr, fmt.Sprint("point:", dx, dy))
 		}
 		return nil
 	}
-	x, y := v.spriter.GetPosition()
-	ebitenutil.DebugPrint(scr, fmt.Sprint("point:", x, y))
 	v.spriter.Draw(scr, 0, 0, 1)
 	return nil
 }
