@@ -6,16 +6,10 @@ import (
 	"image/color"
 	_ "image/png"
 	"log"
-	"math/rand"
-	"time"
 
 	"github.com/gocs/viewdrag"
 	"github.com/hajimehoshi/ebiten"
 )
-
-func init() {
-	rand.Seed(time.Now().UnixNano())
-}
 
 const (
 	screenWidth  = 320
