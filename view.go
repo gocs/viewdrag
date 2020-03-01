@@ -24,18 +24,18 @@ type View struct {
 
 // NewView gives custom default values
 func NewView(ebitenImage *ebiten.Image, x, y, screenWidth, screenHeight int, trigger ebiten.MouseButton) *View {
-	return &View{spriter: &Sprite{
-		image:        ebitenImage,
-		x:            x,
-		y:            y,
-		screenWidth:  screenWidth,
-		screenHeight: screenHeight,
-	}, trigger: trigger}
+	return &View{
+		spriter: NewSprite(ebitenImage, x, y, screenWidth, screenHeight),
+		trigger: trigger,
+	}
 }
 
 // NewViewWithMesh gives custom default values
 func NewViewWithMesh(ebitenImage *ebiten.Image, vertices []ebiten.Vertex, indeces []uint16, x, y, screenWidth, screenHeight int, trigger ebiten.MouseButton) *View {
-	return &View{spriter: NewMesh(ebitenImage, vertices, indeces, x, y, screenWidth, screenHeight), trigger: trigger}
+	return &View{
+		spriter: NewMesh(ebitenImage, vertices, indeces, x, y, screenWidth, screenHeight),
+		trigger: trigger,
+	}
 }
 
 // Compute implements ebiten Update func before draw skipping for main loop

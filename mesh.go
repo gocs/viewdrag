@@ -56,21 +56,7 @@ func (m *Mesh) MoveBy(x, y int) {
 	m.x += x
 	m.y += y
 
-	// if exceeds bounds return back
-	// if m.x, m.y is <1/2 of m.width, m.height { set to 1/2 m.width, m.height}
-	// m.width favorably gives buffer
-	if m.x < m.scrWidth/2-m.width {
-		m.x = m.scrWidth/2 - m.width
-	}
-	if m.x > m.scrWidth/2 {
-		m.x = m.scrWidth / 2
-	}
-	if m.y < m.scrHeight/2-m.height {
-		m.y = m.scrHeight/2-m.height
-	}
-	if m.y > m.scrHeight/2 {
-		m.y = m.scrHeight/2
-	}
+	m.x, m.y = keepSpriteInsideView(m.x, m.y, m.scrWidth, m.scrHeight, m.width, m.height)
 }
 
 // GetPosition gives the displacement position of the of the whole mesh

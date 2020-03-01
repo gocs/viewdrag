@@ -23,23 +23,21 @@ const (
 )
 
 func main() {
+	vx := []ebiten.Vertex{
+		{DstX: 0, DstY: 0, SrcX: 0, SrcY: 0, ColorR: 1, ColorG: 1, ColorB: 1, ColorA: 1},
+		{DstX: 0, DstY: 1000, SrcX: 0, SrcY: 0, ColorR: 1, ColorG: 1, ColorB: 1, ColorA: 1},
+		{DstX: 1000, DstY: 1000, SrcX: 0, SrcY: 0, ColorR: 1, ColorG: 1, ColorB: 1, ColorA: 1},
+		{DstX: 1000, DstY: 0, SrcX: 0, SrcY: 0, ColorR: 1 / 3, ColorG: 2 / 3, ColorB: 1, ColorA: 1},
+	}
+
 	emptyImage, _ := ebiten.NewImage(16, 16, ebiten.FilterDefault)
 	emptyImage.Fill(color.White)
 
-	w, h := emptyImage.Size()
-	vx := []ebiten.Vertex{
-		{DstX: 0, DstY: 0, SrcX: 0, SrcY: 0, ColorR: 1, ColorG: 1, ColorB: 1, ColorA: 1},
-		{DstX: 0, DstY: 100, SrcX: 0, SrcY: 0, ColorR: 1, ColorG: 1, ColorB: 1, ColorA: 1},
-		{DstX: 100, DstY: 100, SrcX: 0, SrcY: 0, ColorR: 1, ColorG: 1, ColorB: 1, ColorA: 1},
-	}
-
 	v := viewdrag.NewViewWithMesh(
 		emptyImage,
-		vx, []uint16{0, 1, 2},
-		rand.Intn(screenWidth-w),
-		rand.Intn(screenHeight-h),
-		screenWidth,
-		screenHeight,
+		vx, []uint16{0, 1, 2, 0, 2, 3},
+		0, 0,
+		screenWidth, screenHeight,
 		ebiten.MouseButtonMiddle,
 	)
 
