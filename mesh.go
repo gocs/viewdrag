@@ -23,15 +23,7 @@ type Mesh struct {
 
 // NewMesh generates new mesh with farthest vector
 func NewMesh(ebitenImage *ebiten.Image, vertices []ebiten.Vertex, indeces []uint16, x, y, screenWidth, screenHeight int) *Mesh {
-	var w, h float32
-	for _, v := range vertices {
-		if w < v.DstX {
-			w = v.DstX
-		}
-		if h < v.DstY {
-			h = v.DstY
-		}
-	}
+	w, h := Size(vertices)
 
 	return &Mesh{
 		image:     ebitenImage,
@@ -44,6 +36,19 @@ func NewMesh(ebitenImage *ebiten.Image, vertices []ebiten.Vertex, indeces []uint
 		scrWidth:  screenWidth,
 		scrHeight: screenHeight,
 	}
+}
+
+// Size returns the width and height of the mesh
+func Size(vertices []ebiten.Vertex) (w, h float32) {
+	for _, v := range vertices {
+		if w < v.DstX {
+			w = v.DstX
+		}
+		if h < v.DstY {
+			h = v.DstY
+		}
+	}
+	return
 }
 
 // MoveBy asks for increments of the movements

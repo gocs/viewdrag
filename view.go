@@ -99,6 +99,10 @@ func (v *View) SetMesh(vertices []ebiten.Vertex, indices []uint16) error {
 		return errors.New("error: spriters might not be a mesh; it might be a sprite")
 	}
 
+	w, h := Size(vertices)
+	mesh.width = int(w)
+	mesh.height = int(h)
+
 	mesh.vertices = vertices
 	mesh.indices = indices
 	v.spriter = mesh

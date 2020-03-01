@@ -30,7 +30,7 @@ func main() {
 
 	v := viewdrag.NewViewWithMesh(
 		emptyImage,
-		vx, []uint16{},
+		[]ebiten.Vertex{}, []uint16{},
 		rand.Intn(screenWidth-w),
 		rand.Intn(screenHeight-h),
 		screenWidth,
