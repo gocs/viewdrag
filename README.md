@@ -1,7 +1,7 @@
 # viewdrag
 
 [![PkgGoDev](https://pkg.go.dev/badge/github.com/gocs/viewdrag)](https://pkg.go.dev/github.com/gocs/viewdrag)
-
+[![Go Report Card](https://goreportcard.com/badge/github.com/gocs/viewdrag)](https://goreportcard.com/report/github.com/gocs/viewdrag)
 
 viewdrag will drag and drop the image in the viewport.
 
