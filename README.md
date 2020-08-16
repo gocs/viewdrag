@@ -1,5 +1,8 @@
 # viewdrag
 
+[![PkgGoDev](https://pkg.go.dev/badge/github.com/gocs/viewdrag)](https://pkg.go.dev/github.com/gocs/viewdrag)
+
+
 viewdrag will drag and drop the image in the viewport.
 
 accepts ebiten.image only as sprite or;
